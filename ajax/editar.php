@@ -43,7 +43,7 @@ try {
         exit;
     }
 
-    //ACTUALIZAR BODEGA (INCLUYE CÓDIGO)
+    //ACTUALIZAR BODEGA
     $sql = "UPDATE bodega 
             SET codigo = $1,
                 nombre = $2,
