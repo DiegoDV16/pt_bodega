@@ -1,6 +1,17 @@
 <?php
 include("../conexion.php");
 
+// validacion de campos vacios
+if (empty($_POST['id']) || empty($_POST['codigo']) ||empty($_POST['nombre']) || 
+    empty($_POST['direccion']) ||empty($_POST['dotacion']) ||
+    empty($_POST['estado']) || empty($_POST['encargado'])) {
+    echo json_encode([
+        "status" => "error",
+        "mensaje" => "Todos los campos son obligatorios"
+    ]);
+    exit;
+}
+
 $id = $_POST['id'];
 $codigo = $_POST['codigo'];
 $nombre = $_POST['nombre'];
@@ -10,6 +21,27 @@ $estado = $_POST['estado'];
 $encargado = $_POST['encargado'];
 
 try {
+
+   //Validacion de dotacion no puede ser menor a 0
+    if (!filter_var($dotacion, FILTER_VALIDATE_INT, ["options" => ["min_range" => 0]])) {
+        echo json_encode([
+            "status" => "error",
+            "mensaje" => "La dotación debe ser mayor o igual a 0"
+        ]);
+        exit;
+    }
+
+    // validacion de bodega con mismo codigo pero diferente id
+    $sqlVal = "SELECT 1 FROM bodega WHERE codigo = $1 AND id != $2";
+    $resVal = pg_query_params($conn, $sqlVal, [$codigo, $id]);
+
+    if (pg_num_rows($resVal) > 0) {
+        echo json_encode([
+            "status" => "error",
+            "mensaje" => "Ya existe otra bodega con ese código"
+        ]);
+        exit;
+    }
 
     //ACTUALIZAR BODEGA (INCLUYE CÓDIGO)
     $sql = "UPDATE bodega 
