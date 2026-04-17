@@ -10,7 +10,7 @@ function crear() {
     data.append("estado", estado.value);
     data.append("encargado", encargado.value);
     //metodo para enviar los datos al servidor y crear la bodega
-    fetch("ajax/crear.php", { method: "POST", body: data })
+    fetch("Controllers/crear.php", { method: "POST", body: data })
     .then(r => r.json())
     .then(r => {
         alert(r.mensaje);
@@ -39,7 +39,7 @@ function listar() {
     let desde = fecha_desde.value || "";
     let hasta = fecha_hasta.value || "";
 
-    fetch(`ajax/listar.php?estado=${estado}&encargado=${encargado}&desde=${desde}&hasta=${hasta}`)
+    fetch(`Controllers/listar.php?estado=${estado}&encargado=${encargado}&desde=${desde}&hasta=${hasta}`)
     .then(r => r.json())
     .then(data => {
 
@@ -107,7 +107,7 @@ function guardarEdicion() {
     data.append("estado", edit_estado.value);
     data.append("encargado", edit_encargado.value);
 
-    fetch("ajax/editar.php", { method: "POST", body: data })
+    fetch("Controllers/editar.php", { method: "POST", body: data })
     .then(r => r.json())
     .then(r => {
         alert(r.mensaje);
@@ -125,7 +125,7 @@ function eliminar(id) {
     let data = new FormData();
     data.append("id", id);
 
-    fetch("ajax/eliminar.php", { method: "POST", body: data })
+    fetch("Controllers/eliminar.php", { method: "POST", body: data })
     .then(() => listar());
 }
 

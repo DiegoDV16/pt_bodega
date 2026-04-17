@@ -20,7 +20,7 @@ CREATE TABLE encargado (
     telefono VARCHAR(20)
 );
 
--- TABLA BODEGA (AHORA CON FK)
+-- TABLA BODEGA
 CREATE TABLE bodega (
     id SERIAL PRIMARY KEY,
     codigo VARCHAR(5) UNIQUE,
